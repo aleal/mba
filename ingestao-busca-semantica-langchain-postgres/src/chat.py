@@ -39,11 +39,6 @@ def select_model():
 
 def main():
     question_chain = check_env_vars | input_question
-
-    if not chain:
-        print("Não foi possível iniciar o chat. Verifique os erros de inicialização.")
-        return
-    
     question = question_chain.invoke({})
     prompt = search_prompt(question)
     chat_chain = select_model() | StrOutputParser()

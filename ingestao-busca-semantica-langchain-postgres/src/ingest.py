@@ -91,8 +91,6 @@ PDF_PATH = os.getenv("PDF_PATH")
 def ingest_pdf():
     chain = check_env_vars | load_pdf | split_pdf | enrich_documents | \
             select_embeddings | setup_vector_store | add_documents
-    if not chain:
-        raise SystemExit(0)
     context = ChainContext()
     context.pdf_path = PDF_PATH
     chain.invoke(context)
