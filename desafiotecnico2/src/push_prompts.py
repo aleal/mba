@@ -102,14 +102,14 @@ def push_prompt_to_langsmith(prompt_name: str, prompt_data: dict) -> bool:
     except Exception as e:
         # O Hub rejeita um commit idêntico ao anterior; nesse caso o prompt já está publicado
         if "nothing to commit" in str(e).lower() or "409" in str(e):
-            print("   ✓ Nenhuma alteração desde o último push (prompt já está atualizado)")
+            print("   Nenhuma alteração desde o último push (prompt já está atualizado)")
             return True
-        print(f"❌ Erro ao fazer push de '{prompt_name}': {e}")
+        print(f"Erro ao fazer push de '{prompt_name}': {e}")
         return False
 
-    print(f"   ✓ Push concluído (público)")
-    print(f"   ✓ Tags: {', '.join(tags)}")
-    print(f"   ✓ {url}")
+    print("   Push concluído (público)")
+    print(f"   Tags: {', '.join(tags)}")
+    print(f"   URL: {url}")
     return True
 
 
@@ -149,18 +149,18 @@ def main():
 
     data = load_yaml(str(PROMPT_PATH))
     if not data or PROMPT_KEY not in data:
-        print(f"❌ Chave '{PROMPT_KEY}' não encontrada em {PROMPT_PATH}")
+        print(f"Erro: chave '{PROMPT_KEY}' não encontrada em {PROMPT_PATH}")
         return 1
 
     prompt_data = data[PROMPT_KEY]
 
     is_valid, errors = validate_prompt(prompt_data)
     if not is_valid:
-        print("❌ Prompt inválido:")
+        print("Prompt inválido:")
         for error in errors:
             print(f"   - {error}")
         return 1
-    print("✓ Prompt validado")
+    print("Prompt validado")
 
     username = os.getenv("USERNAME_LANGSMITH_HUB")
     prompt_name = f"{username}/{PROMPT_KEY}"
@@ -168,7 +168,7 @@ def main():
     if not push_prompt_to_langsmith(prompt_name, prompt_data):
         return 1
 
-    print("\n✅ Push concluído com sucesso!")
+    print("\nPush concluído com sucesso!")
     print("\nPróximo passo: python src/evaluate.py")
     return 0
 

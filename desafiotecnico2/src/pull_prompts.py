@@ -103,19 +103,19 @@ def pull_prompts_from_langsmith():
     try:
         prompt = client.pull_prompt(SOURCE_PROMPT, dangerously_pull_public_prompt=True)
     except Exception as e:
-        print(f"❌ Erro ao fazer pull do prompt '{SOURCE_PROMPT}': {e}")
+        print(f"Erro ao fazer pull do prompt '{SOURCE_PROMPT}': {e}")
         return False
 
-    print(f"   ✓ Prompt carregado ({len(prompt.messages)} mensagens)")
+    print(f"   Prompt carregado ({len(prompt.messages)} mensagens)")
 
     prompt_data = extract_prompt_data(prompt)
     if not prompt_data.get("system_prompt"):
-        print("⚠️  O prompt não contém mensagem de sistema")
+        print("Aviso: o prompt não contém mensagem de sistema")
 
     if not save_yaml({PROMPT_KEY: prompt_data}, str(OUTPUT_PATH)):
         return False
 
-    print(f"   ✓ Salvo em prompts/{OUTPUT_PATH.name}")
+    print(f"   Salvo em prompts/{OUTPUT_PATH.name}")
     return True
 
 
@@ -129,7 +129,7 @@ def main():
     if not pull_prompts_from_langsmith():
         return 1
 
-    print("\n✅ Pull concluído com sucesso!")
+    print("\nPull concluído com sucesso!")
     print("\nPróximo passo: otimize o prompt em prompts/bug_to_user_story_v2.yml")
     return 0
 
