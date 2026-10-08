@@ -1,8 +1,59 @@
 # Pull, Otimização e Avaliação de Prompts com LangChain e LangSmith
 
-Projeto que faz **pull** de um prompt de baixa qualidade do LangSmith Prompt Hub (`leonanluppi/bug_to_user_story_v1`), **refatora** esse prompt com técnicas de Prompt Engineering, faz **push** da versão otimizada (`{seu_username}/bug_to_user_story_v2`) e a **avalia** com 5 métricas (Helpfulness, Correctness, F1-Score, Clarity, Precision). A meta é **≥ 0.8 em todas**.
+Projeto que faz **pull** de um prompt de baixa qualidade do LangSmith Prompt Hub (`leonanluppi/bug_to_user_story_v1`), **refatora** esse prompt com técnicas de Prompt Engineering, faz **push** da versão otimizada (`aleal/bug_to_user_story_v2`) e a **avalia** com 5 métricas (Helpfulness, Correctness, F1-Score, Clarity, Precision). A meta é **≥ 0.8 em todas**.
 
 A tarefa do prompt é transformar um relato de bug em uma User Story com critérios de aceitação.
+
+## Resumo dos resultados
+
+✅ **Aprovado:** todas as métricas ≥ 0.8, média **0.90**
+
+| Helpfulness | Correctness | F1-Score | Clarity | Precision |
+|---|---|---|---|---|
+| 0.91 | 0.90 | 0.87 | 0.90 | 0.92 |
+
+- **Configuração:** `LLM_MODEL=gpt-4o-mini` (gera as respostas) e `EVAL_MODEL=gpt-4.1` (avalia). Veja [por que troquei o modelo de avaliação](#por-que-troquei-o-modelo-de-avaliação).
+- **Técnicas:** Role Prompting, Few-shot Learning, Chain of Thought e Skeleton of Thought.
+- **Iterações:** 5 rodadas de ajuste no prompt, mais 2 diagnósticos de modelo. Veja o [histórico](#histórico-de-iterações).
+- **Dataset público com todos os experimentos:** https://smith.langchain.com/public/ac877b56-de96-4b45-9ebc-d0379b4bc601/d
+- **Prompt publicado:** https://smith.langchain.com/hub/aleal/bug_to_user_story_v2
+
+## Como executar (rápido)
+
+Pré-requisitos: Python 3.10+, conta no LangSmith com handle público no Hub e API key da OpenAI ou do Gemini. Os detalhes estão em [Como Executar](#como-executar).
+
+```bash
+git clone git@github.com:aleal/mba.git
+cd mba/desafiotecnico2
+
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+cp .env.example .env              # preencha as chaves e o USERNAME_LANGSMITH_HUB
+
+python src/pull_prompts.py        # 1. pull do prompt v1
+pytest tests/test_prompts.py      # 2. valida o prompt v2
+python src/push_prompts.py        # 3. push do prompt v2 (público)
+python src/evaluate.py            # 4. avaliação no LangSmith
+```
+
+## Índice
+
+1. [Técnicas Aplicadas (Fase 2)](#técnicas-aplicadas-fase-2)
+   - [Role Prompting](#1-role-prompting)
+   - [Few-shot Learning](#2-few-shot-learning-obrigatória)
+   - [Chain of Thought](#3-chain-of-thought-interno)
+   - [Skeleton of Thought](#4-skeleton-of-thought)
+   - [Outras decisões do prompt](#outras-decisões-do-prompt)
+2. [Resultados Finais](#resultados-finais)
+   - [Evidências no LangSmith](#evidências-no-langsmith)
+   - [Screenshots](#screenshots)
+   - [Histórico de iterações](#histórico-de-iterações)
+   - [Por que troquei o modelo de avaliação](#por-que-troquei-o-modelo-de-avaliação)
+   - [Comparação v1 × v2](#comparação-v1--v2)
+3. [Como Executar](#como-executar)
+4. [Estrutura](#estrutura)
 
 ---
 
