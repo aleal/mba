@@ -1,14 +1,23 @@
-const express = require('express');
-const AppManager = require('./AppManager');
-const { config } = require('./utils');
+const config = require('./config');
+const { createLogger } = require('./utils/logger');
+const { openDatabase } = require('./database/connection');
+const { initSchema, seed } = require('./database/schema');
+const { hashPassword } = require('./services/passwordService');
+const { createApp } = require('./server');
 
-const app = express();
-app.use(express.json());
+const logger = createLogger(config.logLevel);
 
-const manager = new AppManager();
-manager.initDb();
-manager.setupRoutes(app);
+(async () => {
+    const db = await openDatabase(config.dbPath);
+    await initSchema(db);
+    await seed(db, { hashPassword });
 
-app.listen(config.port, () => {
-    console.log(`Frankenstein LMS rodando na porta ${config.port}...`);
+    if (!config.adminToken) logger.warn('ADMIN_TOKEN não definido: rotas administrativas responderão 403.');
+
+    createApp({ db, config, logger }).listen(config.port, () => {
+        logger.info(`LMS API rodando na porta ${config.port}`);
+    });
+})().catch((err) => {
+    logger.error('Falha ao iniciar a aplicação:', err);
+    process.exit(1);
 });
