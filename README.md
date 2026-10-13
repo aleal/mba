@@ -6,6 +6,7 @@
 |---|---|---|---|
 | 1 | Ingestão e Busca Semântica com LangChain e Postgres: ingestão de um PDF no PostgreSQL + pgVector e busca semântica via CLI | [`ingestao-busca-semantica-langchain-postgres`](ingestao-busca-semantica-langchain-postgres/) | [README](ingestao-busca-semantica-langchain-postgres/README.md) · [Como rodar](ingestao-busca-semantica-langchain-postgres/README.md#como-rodar-a-aplicação) |
 | 2 | Pull, Otimização e Avaliação de Prompts com LangChain e LangSmith: otimização de prompt avaliada com 5 métricas no LangSmith (aprovado, média 0.90) | [`desafiotecnico2`](desafiotecnico2/) | [README](desafiotecnico2/README.md) · [Resultados](desafiotecnico2/README.md#resumo-dos-resultados) · [Como executar](desafiotecnico2/README.md#como-executar-rápido) |
+| 3 | Criação de Skills — Refatoração Arquitetural Automatizada: skill `/refactor-arch` do Claude Code que audita e refatora 3 projetos legados (Flask e Express) para MVC | [`desafiotecnico3`](desafiotecnico3/) | [README](desafiotecnico3/README.md) · [Resultados](desafiotecnico3/README.md#resumo-dos-resultados) · [Como executar](desafiotecnico3/README.md#como-executar-rápido) |
 
 ## Clonar repo mba
 
@@ -27,3 +28,10 @@ Após clonado o repo mba
 cd mba/desafiotecnico2
 ```
 Seguir instruções do [README.md](https://github.com/aleal/mba/blob/main/desafiotecnico2/README.md)
+
+### Criação de Skills — Refatoração Arquitetural Automatizada
+Após clonado o repo mba 
+```bash
+cd mba/desafiotecnico3
+```
+Seguir instruções do [README.md](https://github.com/aleal/mba/blob/main/desafiotecnico3/README.md)

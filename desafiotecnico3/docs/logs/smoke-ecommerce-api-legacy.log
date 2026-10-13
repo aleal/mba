@@ -1,0 +1,14 @@
+== ecommerce-api-legacy (porta 5077) ==
+POST   /api/checkout                        -> 200  {"msg":"Sucesso","enrollment_id":2}
+POST   /api/checkout                        -> 400  Pagamento recusado
+POST   /api/checkout                        -> 404  Curso não encontrado
+POST   /api/checkout                        -> 400  Bad Request
+GET    /api/admin/financial-report          -> 403  Acesso negado
+GET    /api/admin/financial-report          -> 200  [{"course":"Clean Architecture","revenue":997,"students":[{"student":"Leonan","paid":997}]},{"course":"Docker"
+DELETE /api/users/1                         -> 403  Acesso negado
+DELETE /api/users/1                         -> 200  Usuário deletado.
+GET    /api/admin/financial-report          -> 200  [{"course":"Clean Architecture","revenue":0,"students":[]},{"course":"Docker","revenue":497,"students":[{"stud
+-- log do servidor (tracebacks: 0) --
+[2026-10-13T12:12:10.643Z] INFO LMS API rodando na porta 5077
+[2026-10-13T12:12:11.083Z] INFO Processando pagamento do cartão final 4444
+[2026-10-13T12:12:11.123Z] INFO Processando pagamento do cartão final 4444
