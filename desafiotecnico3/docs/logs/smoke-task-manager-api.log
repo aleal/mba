@@ -1,0 +1,35 @@
+== task-manager-api (porta 5077) ==
+Seed concluído com sucesso!
+  3 usuários
+  4 categorias
+  10 tasks
+GET    /                                    -> 200  {"message":"Task Manager API","version":"1.0"} 
+GET    /health                              -> 200  {"status":"ok","timestamp":"2026-10-13 09:12:12.058681"} 
+GET    /tasks                               -> 200  [{"category_id":1,"category_name":"Backend","created_at":"2026-10-13 12:12:11.471626","description":"Adicionar
+GET    /tasks/1                             -> 200  {"category_id":1,"created_at":"2026-10-13 12:12:11.471626","description":"Adicionar autentica\u00e7\u00e3o rea
+GET    /tasks/999                           -> 404  {"error":"Task n\u00e3o encontrada"} 
+GET    /tasks/search?q=login&status=in_progress -> 200  [{"category_id":2,"created_at":"2026-10-13 12:12:11.471628","description":"Tela de login responsiva","due_date
+GET    /tasks/stats                         -> 200  {"cancelled":1,"completion_rate":10.0,"done":1,"in_progress":2,"overdue":2,"pending":6,"total":10} 
+POST   /tasks                               -> 201  {"category_id":1,"created_at":"2026-10-13 12:12:12.119016","description":"","due_date":"2026-12-01 00:00:00","
+POST   /tasks                               -> 400  {"error":"T\u00edtulo muito curto"} 
+PUT    /tasks/11                            -> 200  {"category_id":1,"created_at":"2026-10-13 12:12:12.119016","description":"","due_date":"2026-12-01 00:00:00","
+DELETE /tasks/11                            -> 200  {"message":"Task deletada com sucesso"} 
+GET    /users                               -> 200  [{"active":true,"created_at":"2026-10-13 12:12:11.468545","email":"joao@email.com","id":1,"name":"Jo\u00e3o Si
+GET    /users/1                             -> 200  {"active":true,"created_at":"2026-10-13 12:12:11.468545","email":"joao@email.com","id":1,"name":"Jo\u00e3o Sil
+GET    /users/1/tasks                       -> 200  [{"created_at":"2026-10-13 12:12:11.471626","description":"Adicionar autentica\u00e7\u00e3o real com JWT","due
+POST   /users                               -> 201  {"active":true,"created_at":"2026-10-13 12:12:12.215492","email":"ana@x.com","id":4,"name":"Ana","role":"user"
+PUT    /users/4                             -> 200  {"active":true,"created_at":"2026-10-13 12:12:12.215492","email":"ana@x.com","id":4,"name":"Ana B","role":"use
+POST   /login                               -> 200  {"message":"Login realizado com sucesso","token":"eyJ1aWQiOjF9.as4gHA.2buAbVwht7fN3BF6xIyTW_IpfN8","user":{"ac
+GET    /reports/summary                     -> 200  {"generated_at":"2026-10-13 12:12:12.302947","overdue":{"count":2,"tasks":[{"days_overdue":3,"due_date":"2026-
+GET    /reports/user/1                      -> 200  {"statistics":{"cancelled":0,"completion_rate":0.0,"done":0,"high_priority":2,"in_progress":0,"overdue":2,"pen
+GET    /categories                          -> 200  [{"color":"#3498db","created_at":"2026-10-13 12:12:11.469580","description":"Tarefas de backend","id":1,"name"
+POST   /categories                          -> 201  {"color":"#123456","created_at":"2026-10-13 12:12:12.327535","description":"","id":5,"name":"QA"} 
+PUT    /categories/5                        -> 200  {"color":"#123456","created_at":"2026-10-13 12:12:12.327535","description":"","id":5,"name":"QA2"} 
+DELETE /categories/5                        -> 401  {"error":"Token inv\u00e1lido ou ausente"} 
+DELETE /categories/5                        -> 200  {"message":"Categoria deletada"} 
+DELETE /users/4                             -> 401  {"error":"Token inv\u00e1lido ou ausente"} 
+DELETE /users/4                             -> 200  {"message":"Usu\u00e1rio deletado com sucesso"} 
+-- log do servidor (tracebacks: 0) --
+2026-10-13 09:12:12,359 INFO werkzeug: 127.0.0.1 - - [13/Oct/2026 09:12:12] "DELETE /users/4 HTTP/1.1" 401 -
+2026-10-13 09:12:12,368 INFO controllers.user_controller: usuário deletado id=4
+2026-10-13 09:12:12,368 INFO werkzeug: 127.0.0.1 - - [13/Oct/2026 09:12:12] "DELETE /users/4 HTTP/1.1" 200 -
